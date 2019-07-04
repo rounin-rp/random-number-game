@@ -3,7 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 Date - 02 July 2019
@@ -17,11 +20,13 @@ class Class2 extends JFrame implements ActionListener
     JButton B;
     JTextField T1,T2,T3;
     JLabel L1,L2,L3,L4,L5,L6;
-    String diff;
+    String diff,name;
     Random rand = new Random();
-    Class2(String diff)
+    Information inf;
+    Class2(String name,String diff)
     {
         this.diff = diff;
+        this.name = name;
         highscore = 0;
         setLayout(new FlowLayout());
         setSize(300,300);
@@ -56,7 +61,7 @@ class Class2 extends JFrame implements ActionListener
         B.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e)
                 {
-                       int ent_num;
+                       int ent_num,flag = 0;
                     String text = T1.getText();
                     ent_num = Integer.parseInt(text);
                     if(chance == 1)
@@ -67,6 +72,7 @@ class Class2 extends JFrame implements ActionListener
                         add(L5);
                         add(L6);
                         setVisible(true);
+                        flag = 1;
                     }
                 else{
                     if(ent_num == number){
@@ -76,20 +82,31 @@ class Class2 extends JFrame implements ActionListener
                         add(L5);
                         add(L6);
                         setVisible(true);
-                        
+                        flag = 1;
                     }
                     else if(ent_num > number)
                     {
+                        T1.setText("");
                         T2.setText("Greater");
                         chance--;
                     }
                     else
                     {
                         T2.setText("Smaller");
+                        T1.setText("");
                         chance--;
                     }   
                     }
                     T3.setText(chance+"");
+                    inf = new Information(name,diff,highscore);
+                    if(flag == 1)
+                {
+                    try {
+                        inf.save_data();
+                        } catch (IOException ex) {
+                        Logger.getLogger(Class2.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                }
                 }
         });
     }

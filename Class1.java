@@ -14,13 +14,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
 
 class Class1 extends JFrame implements ActionListener
 {
-    JButton B1,B2;
+    JButton B1,B2,B3;
     JLabel L1;
     JTextField T1,T2;
     JRadioButton R1,R2,R3;
@@ -28,6 +31,7 @@ class Class1 extends JFrame implements ActionListener
     Help help;
     String diff,name;
     int highscore;
+    Information ob;
     Class1()
     {
         setLayout(new FlowLayout());
@@ -35,6 +39,7 @@ class Class1 extends JFrame implements ActionListener
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         B1 = new JButton("OK");
         B2 = new JButton("? Help");
+        B3 = new JButton("High Score");
         L1 = new JLabel("Enter player name (no spaces):");
         T1 = new JTextField(20);
         T2 = new JTextField(20);
@@ -46,6 +51,7 @@ class Class1 extends JFrame implements ActionListener
         BG.add(R2);
         BG.add(R3);
         add(B2);
+        add(B3);
         add(L1);
         add(T1);
         add(R1);
@@ -57,6 +63,25 @@ class Class1 extends JFrame implements ActionListener
            public void actionPerformed(ActionEvent ae)
                 {
                    help = new Help(); 
+                }
+        });
+        B3.addActionListener(new ActionListener(){
+           public void actionPerformed(ActionEvent ae)
+                {
+                    int easy,medium,hard;
+                    String ename,mname,hname;
+                    ob = new Information();
+                    String [] data = new String [6];
+               try {
+                   data = ob.retData();
+               } catch (IOException ex) {
+                   Logger.getLogger(Class1.class.getName()).log(Level.SEVERE, null, ex);
+               }
+               catch(Exception e)
+                {
+                    System.out.print(e.getStackTrace());
+                }
+               new Highscore(data[0],data[2],data[4],(Integer.parseInt(data[1])),(Integer.parseInt(data[3])), (Integer.parseInt(data[5])));
                 }
         });
         setVisible(true);
@@ -85,8 +110,9 @@ class Class1 extends JFrame implements ActionListener
                 diff = R2.getText();
             else
                 diff = R3.getText();
+            
             T2.setText(diff);
-            new Class2(diff);
+            Class2 cl2 = new Class2(name,diff);
         }
     }
 }
