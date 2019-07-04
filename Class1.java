@@ -90,10 +90,13 @@ class Class1 extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         String in = T1.getText();
-        if((in.equals("") || in.equals("Please enter a player name")) || (!(R1.isSelected() || R2.isSelected() || R3.isSelected())) )
+        if((checkSpaces(in)) == 1)
+            T1.setText("Please enter a valid name");
+        else{
+        if((in.equals("") || in.equals("Please enter a valid name")) || (!(R1.isSelected() || R2.isSelected() || R3.isSelected())) )
         {
-            if(in.equals("") || in.equals("Please enter a player name"))
-                T1.setText("Please enter a player name");
+            if(in.equals("") || in.equals("Please enter a valid name"))
+                T1.setText("Please enter a valid name");
             if(!(R1.isSelected() || R2.isSelected() || R3.isSelected()))
             {
                 add(T2);
@@ -114,5 +117,25 @@ class Class1 extends JFrame implements ActionListener
             T2.setText(diff);
             Class2 cl2 = new Class2(name,diff);
         }
+        }
+    }
+    
+    int checkSpaces(String str)
+    {
+        int len = str.length();
+        int flag = 0,count = 0;
+        char ch;
+        for(int i=0; i<len; i++)
+        {
+            if(count >= 1)
+            {
+                flag = 1;
+                break;
+            }
+            ch = str.charAt(i);
+            if(ch == 32)
+                count++;
+        }
+        return flag;
     }
 }

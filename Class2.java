@@ -37,10 +37,10 @@ class Class2 extends JFrame implements ActionListener
         L1 = new JLabel("Enter number : ");
         L1.setVerticalAlignment(SwingConstants.CENTER);
         L2 = new JLabel("<html></br>Result :</html>");
-        L3 = new JLabel("<html><p1>"+this.diff+" mode <br/></p1></html>");
+        L3 = new JLabel("<html><p1>     "+this.diff+" mode           <br/></p1></html>");
         L3.setHorizontalAlignment(SwingConstants.CENTER);
         L3.setVerticalAlignment(SwingConstants.TOP);
-        L4 = new JLabel("Chances : ");
+        L4 = new JLabel("         Chances :  ");
         T3.setText(chance+"");
         L5 = new JLabel("Your score :");
         add(L3);
@@ -61,9 +61,14 @@ class Class2 extends JFrame implements ActionListener
         B.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e)
                 {
-                       int ent_num,flag = 0;
+                       int ent_num=-9999,flag = 0;
                     String text = T1.getText();
+                    try{
                     ent_num = Integer.parseInt(text);
+                    }
+                    catch(Exception ee){
+                        T2.setText("invalid input");
+                    }
                     if(chance == 1)
                     {
                         T2.setText("Lose!");
@@ -90,7 +95,7 @@ class Class2 extends JFrame implements ActionListener
                         T2.setText("Greater");
                         chance--;
                     }
-                    else
+                    else if(ent_num < number && ent_num != -9999)
                     {
                         T2.setText("Smaller");
                         T1.setText("");
